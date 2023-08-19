@@ -1,5 +1,5 @@
-use super::execute::echo;
 pub use super::execute::Execute;
+use super::execute::{cat, echo};
 pub enum Cmd {
     Echo,
     Cat,
@@ -12,14 +12,8 @@ pub enum Cmd {
 impl Execute for Cmd {
     fn execute(&self, args: &[String]) -> Result<(), String> {
         match self {
-            Cmd::Echo => {
-                if let Some(s) = args.get(0) {
-                    echo(s)
-                } else {
-                    Err(String::from("Could not get the parameter"))
-                }
-            }
-            Cmd::Cat => todo!(),
+            Cmd::Echo => echo(args),
+            Cmd::Cat => cat(args),
             Cmd::Ls => todo!(),
             Cmd::Find => todo!(),
             Cmd::Grep => todo!(),

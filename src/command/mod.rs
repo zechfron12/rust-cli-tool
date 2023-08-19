@@ -22,10 +22,10 @@ impl Command {
         self.name.execute(&self.args)
     }
 
-    pub fn new(cmd_name: &String, args: Vec<String>) -> Self {
+    pub fn new(cmd_name: &String, args: &[String]) -> Self {
         Command {
             name: Cmd::from(cmd_name),
-            args,
+            args: args.to_vec(),
         }
     }
 }
