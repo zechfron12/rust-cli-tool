@@ -1,3 +1,5 @@
+use super::execute::echo;
+pub use super::execute::Execute;
 pub enum Cmd {
     Echo,
     Cat,
@@ -7,16 +9,15 @@ pub enum Cmd {
     None,
 }
 
-pub trait Execute {
-    fn execute(&self, arg: &str) -> Result<(), String>;
-}
-
 impl Execute for Cmd {
-    fn execute(&self, arg: &str) -> Result<(), String> {
+    fn execute(&self, args: &[String]) -> Result<(), String> {
         match self {
             Cmd::Echo => {
-                println!("{}", arg);
-                Ok(())
+                if let Some(s) = args.get(0) {
+                    echo(s)
+                } else {
+                    Err(String::from("Could not get the parameter"))
+                }
             }
             Cmd::Cat => todo!(),
             Cmd::Ls => todo!(),

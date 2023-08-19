@@ -5,7 +5,13 @@ use std::env::args;
 
 fn main() -> Result<(), String> {
     let args: Vec<String> = args().collect();
-    let cmd_name = args.get(1).expect("Could not get fist param");
-    let cmd_args = args.get(2).expect("Could not get second param");
-    Command::new(cmd_name, cmd_args).execute()
+    let (name_slice, cmd_args) = args.split_at(2);
+    let name = &name_slice.get(1);
+
+    if name.is_none() {
+        return Err("Could not read the command".into());
+    };
+
+    let name = name.unwrap();
+    Command::new(name, cmd_args.to_vec()).execute()
 }
