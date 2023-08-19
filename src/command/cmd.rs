@@ -1,5 +1,5 @@
 pub use super::execute::Execute;
-use super::execute::{cat, echo};
+use super::execute::{cat, echo, find, grep, ls};
 pub enum Cmd {
     Echo,
     Cat,
@@ -14,9 +14,9 @@ impl Execute for Cmd {
         match self {
             Cmd::Echo => echo(args),
             Cmd::Cat => cat(args),
-            Cmd::Ls => todo!(),
-            Cmd::Find => todo!(),
-            Cmd::Grep => todo!(),
+            Cmd::Ls => ls(args),
+            Cmd::Find => find(args),
+            Cmd::Grep => grep(args),
             Cmd::None => Err(String::from("Command not found")),
         }
     }

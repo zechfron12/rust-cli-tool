@@ -1,16 +1,10 @@
-use std::{
-    fs::{read_to_string, write},
-    io::Error,
-};
+use std::fs::{read_dir, read_to_string, write};
 pub trait Execute {
     fn execute(&self, args: &[String]) -> Result<(), String>;
 }
 
 pub fn echo(args: &[String]) -> Result<(), String> {
     if let Some(s) = args.get(0) {
-        if s.is_empty() {
-            return Err(String::from("Empty string provided"));
-        }
         println!("{}", s);
         Ok(())
     } else {
@@ -28,11 +22,34 @@ pub fn cat(args: &[String]) -> Result<(), String> {
 
     let dest_path = dest_path.unwrap();
     let from_path = from_path.unwrap();
+
     let contents_from =
         read_to_string(from_path).map_err(|_| String::from("Could not read from file"))?;
+
     let contents_dest = read_to_string(dest_path)
         .map_err(|_| String::from("Could not read from file"))?
         + contents_from.as_str();
+
     write(dest_path, contents_dest).map_err(|_| String::from("Could not write in file"))?;
     Ok(())
+}
+
+pub fn ls(args: &[String]) -> Result<(), String> {
+    let binding = String::from("./");
+    let path = args.get(0).unwrap_or(&binding);
+    let paths = read_dir(path).map_err(|_| String::from("Could not read directory"))?;
+
+    for path in paths {
+        print!("{} ", path.unwrap().path().display())
+    }
+
+    Ok(())
+}
+
+pub fn find(args: &[String]) -> Result<(), String> {
+    todo!()
+}
+
+pub fn grep(args: &[String]) -> Result<(), String> {
+    todo!()
 }
