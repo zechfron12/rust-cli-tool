@@ -3,6 +3,7 @@ mod execute;
 
 use self::cmd::Cmd;
 use self::execute::Execute;
+
 pub struct Command {
     name: Cmd,
     args: Vec<String>,
